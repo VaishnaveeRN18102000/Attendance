@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request,url_for,redirect,session
+from flask import Flask, render_template, request, url_for, redirect, session
 import sqlite3
 import os
 import smtplib
@@ -20,13 +20,13 @@ def b():
 @app.route('/admin', methods=['POST', 'GET'])
 def c():
     msg = "msg"
-    if request.method=="POST":
+    if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
         with sqlite3.connect("psglogin.db") as db:
             db.row_factory = sqlite3.Row
             cursor = db.cursor()
-        find_user = ("SELECT * FROM admin WHERE username =? AND password = ?")
+        find_user = ("SELECT * FROM admin WHERE username = ? AND password = ?")
         cursor.execute(find_user, [(username), (password)])
         rows = cursor.fetchall()
         if rows:
@@ -37,6 +37,7 @@ def c():
         else:
             msg = "YOU CANNOT LOGIN"
             return render_template("fail.html", msg=msg)
+
 @app.route('/checking')
 def checking():
     adminname = session.get("adminname")
